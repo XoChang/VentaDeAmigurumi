@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Ovillo base -->
+  <circle cx="32" cy="32" r="28" fill="#C9836A"/>
+
+  <!-- Hebras horizontales -->
+  <path d="M6 28 Q20 18 32 24 Q44 30 58 22" stroke="#FAF6F0" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.7"/>
+  <path d="M5 36 Q18 26 32 32 Q46 38 59 30" stroke="#FAF6F0" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.7"/>
+  <path d="M8 44 Q22 34 32 40 Q44 46 56 38" stroke="#FAF6F0" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.6"/>
+
+  <!-- Hebras diagonales -->
+  <path d="M14 10 Q22 28 20 46" stroke="#FAF6F0" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.5"/>
+  <path d="M32 5 Q34 24 30 52" stroke="#FAF6F0" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.5"/>
+  <path d="M50 12 Q44 30 46 50" stroke="#FAF6F0" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.5"/>
+
+  <!-- Brillo -->
+  <circle cx="22" cy="20" r="6" fill="white" opacity="0.15"/>
+</svg>
