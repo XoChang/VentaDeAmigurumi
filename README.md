@@ -36,10 +36,3 @@ cd frontend
 npm install
 npm run dev            # http://localhost:5173
 ```
-
-## Documentación
-
-- [README Backend](./backend/README.md)
-- [README Frontend](./frontend/README.md)
-- [OpenAPI Spec](./backend/openapi.yaml)
-- [CHANGELOG](./CHANGELOG.md)
