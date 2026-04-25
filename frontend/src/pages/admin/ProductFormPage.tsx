@@ -5,15 +5,13 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { productsApi } from "../../api/products.api";
+import { categoriesApi } from "../../api/categories.api";
 import { ProductPreview } from "../../components/ProductPreview";
-import type { Category } from "../../types";
-
-const CATEGORIES = ["ANIME", "ANIMALS", "CHARACTERS", "OTHERS"] as const;
 
 const ProductSchema = z.object({
   name: z.string().min(1, "Requerido").max(100),
   price: z.coerce.number().positive("El precio debe ser mayor a 0"),
-  category: z.enum(CATEGORIES),
+  categoryId: z.string().min(1, "Selecciona una categoría"),
   description: z.string().max(1000).optional(),
   imageUrl: z.string().url("Debe ser una URL válida"),
   available: z.boolean(),
@@ -97,7 +95,13 @@ export function ProductFormPage() {
     formState: { errors, isSubmitting },
   } = useForm<ProductForm>({
     resolver: zodResolver(ProductSchema),
-    defaultValues: { available: true, category: "ANIME" },
+    defaultValues: { available: true },
+  });
+
+  const { data: categories = [] } = useQuery({
+    queryKey: ["categories"],
+    queryFn: categoriesApi.list,
+    staleTime: 5 * 60 * 1000,
   });
 
   useEffect(() => {
@@ -105,7 +109,7 @@ export function ProductFormPage() {
       reset({
         name: existing.name,
         price: existing.price,
-        category: existing.category as (typeof CATEGORIES)[number],
+        categoryId: existing.categoryId,
         description: existing.description ?? "",
         imageUrl: existing.imageUrl,
         available: existing.available,
@@ -293,12 +297,12 @@ export function ProductFormPage() {
 
                 {/* Category */}
                 <div>
-                  <FieldLabel htmlFor="category">Categoría</FieldLabel>
+                  <FieldLabel htmlFor="categoryId">Categoría</FieldLabel>
                   <select
-                    id="category"
-                    {...register("category")}
+                    id="categoryId"
+                    {...register("categoryId")}
                     style={{
-                      ...inputStyle(false),
+                      ...inputStyle(!!errors.categoryId),
                       appearance: "none",
                       backgroundImage:
                         "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23C9836A' d='M6 8L1 3h10z'/%3E%3C/svg%3E\")",
@@ -306,14 +310,15 @@ export function ProductFormPage() {
                       backgroundPosition: "right 14px center",
                       paddingRight: "36px",
                     }}
-                    onFocus={(e) => handleFocus(e, false)}
-                    onBlur={(e) => handleBlur(e, false)}
+                    onFocus={(e) => handleFocus(e, !!errors.categoryId)}
+                    onBlur={(e) => handleBlur(e, !!errors.categoryId)}
                   >
-                    <option value="ANIME">Anime</option>
-                    <option value="ANIMALS">Animales</option>
-                    <option value="CHARACTERS">Personajes</option>
-                    <option value="OTHERS">Otros</option>
+                    <option value="">Selecciona una categoría</option>
+                    {categories.map((c) => (
+                      <option key={c.id} value={c.id}>{c.name}</option>
+                    ))}
                   </select>
+                  <FieldError message={errors.categoryId?.message} />
                 </div>
 
                 {/* Description */}
@@ -423,7 +428,7 @@ export function ProductFormPage() {
               <ProductPreview
                 name={formValues.name}
                 price={formValues.price}
-                category={formValues.category as Category}
+                categoryName={categories.find((c) => c.id === formValues.categoryId)?.name}
                 imageUrl={formValues.imageUrl}
                 currencySymbol="S/."
               />

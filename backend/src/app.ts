@@ -5,6 +5,7 @@ import { productsPublicRouter } from "./interface/routes/products.public.routes"
 import { productsAdminRouter } from "./interface/routes/products.admin.routes";
 import { authRouter } from "./interface/routes/auth.routes";
 import { configRouter } from "./interface/routes/config.routes";
+import { categoriesPublicRouter, categoriesAdminRouter } from "./interface/routes/categories.routes";
 
 const app = express();
 
@@ -33,6 +34,8 @@ app.use("/api/auth", authRouter);
 app.use("/api/products", productsPublicRouter);
 app.use("/api/admin/products", productsAdminRouter);
 app.use("/api/config", configRouter);
+app.use("/api/categories", categoriesPublicRouter);
+app.use("/api/admin/categories", categoriesAdminRouter);
 
 app.use((_req, res) => {
   res.status(404).json({ error: "Not found" });

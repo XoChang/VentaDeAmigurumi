@@ -7,27 +7,28 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Category {
-  ANIME
-  ANIMALS
-  CHARACTERS
-  OTHERS
+model Category {
+  id        String    @id @default(cuid())
+  name      String    @unique
+  createdAt DateTime  @default(now())
+  products  Product[]
 }
 
 model Product {
-  id          String   @id @default(cuid())
+  id          String    @id @default(cuid())
   name        String
-  price       Decimal  @db.Decimal(10, 2)
-  category    Category
+  price       Decimal   @db.Decimal(10, 2)
+  categoryId  String
+  category    Category  @relation(fields: [categoryId], references: [id])
   description String?
   imageUrl    String
-  available   Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  available   Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 
-  @@index([category])
+  @@index([categoryId])
   @@index([available])
-  @@index([available, category])
+  @@index([available, categoryId])
 }
 
 model Config {

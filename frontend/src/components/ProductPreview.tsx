@@ -1,22 +1,12 @@
-import type { Category } from "../types";
-import { CATEGORY_LABELS } from "../types";
-
 interface ProductPreviewProps {
   name?: string;
   price?: number;
-  category?: Category;
+  categoryName?: string;
   imageUrl?: string;
   currencySymbol: string;
 }
 
-const CATEGORY_BADGE_STYLES: Record<string, React.CSSProperties> = {
-  ANIME:      { background: "rgba(201,131,106,0.15)", color: "var(--accent)",         border: "1px solid rgba(201,131,106,0.3)" },
-  ANIMALS:    { background: "rgba(122,158,126,0.15)", color: "var(--sage)",           border: "1px solid rgba(122,158,126,0.3)" },
-  CHARACTERS: { background: "rgba(242,196,160,0.15)", color: "var(--accent)",         border: "1px solid rgba(242,196,160,0.4)" },
-  OTHERS:     { background: "var(--border-subtle)",   color: "var(--text-secondary)", border: "1px solid var(--border-input)" },
-};
-
-export function ProductPreview({ name, price, category, imageUrl, currencySymbol }: ProductPreviewProps) {
+export function ProductPreview({ name, price, categoryName, imageUrl, currencySymbol }: ProductPreviewProps) {
   const hasContent = name || price || imageUrl;
 
   return (
@@ -57,9 +47,10 @@ export function ProductPreview({ name, price, category, imageUrl, currencySymbol
             )}
           </div>
           <div className="p-3">
-            {category && (
-              <span className="inline-block text-xs font-body font-medium px-2 py-0.5 rounded-full mb-1.5" style={CATEGORY_BADGE_STYLES[category] ?? {}}>
-                {CATEGORY_LABELS[category]}
+            {categoryName && (
+              <span className="inline-block text-xs font-body font-medium px-2 py-0.5 rounded-full mb-1.5"
+                style={{ background: "rgba(201,131,106,0.15)", color: "var(--accent)", border: "1px solid rgba(201,131,106,0.3)" }}>
+                {categoryName}
               </span>
             )}
             <p data-testid="product-preview-name" className="font-display font-semibold text-sm leading-tight mb-1" style={{ color: "var(--text-primary)" }}>

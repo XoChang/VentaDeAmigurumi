@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { productsApi } from "../../api/products.api";
-import { CATEGORY_LABELS } from "../../types";
 import type { Product } from "../../types";
 
 /* ── Sidebar nav link ── */
@@ -125,12 +124,8 @@ function SideNavLink({
   );
 }
 
-/* ── Category badge ── */
-const CATEGORY_BADGE_STYLES: Record<Product["category"], React.CSSProperties> = {
-  ANIME: { background: "#C9836A22", color: "#7D3A25", border: "1px solid #C9836A44" },
-  ANIMALS: { background: "#7A9E7E22", color: "#2F4B34", border: "1px solid #7A9E7E44" },
-  CHARACTERS: { background: "#F2C4A022", color: "#7D5120", border: "1px solid #F2C4A066" },
-  OTHERS: { background: "#3D2B1F18", color: "#3D2B1F", border: "1px solid #3D2B1F30" },
+const CATEGORY_BADGE_STYLE: React.CSSProperties = {
+  background: "#C9836A22", color: "#7D3A25", border: "1px solid #C9836A44",
 };
 
 export function AdminDashboardPage() {
@@ -427,9 +422,9 @@ export function AdminDashboardPage() {
                       <td className="px-5 py-3.5">
                         <span
                           className="inline-block text-xs font-body font-medium px-2.5 py-0.5 rounded-full"
-                          style={CATEGORY_BADGE_STYLES[product.category]}
+                          style={CATEGORY_BADGE_STYLE}
                         >
-                          {CATEGORY_LABELS[product.category]}
+                          {product.category.name}
                         </span>
                       </td>
 

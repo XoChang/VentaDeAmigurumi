@@ -3,14 +3,10 @@ import { useQuery } from "@tanstack/react-query";
 import { productsApi } from "../../api/products.api";
 import { configApi } from "../../api/config.api";
 import { WhatsAppButton } from "../../components/WhatsAppButton";
-import { CATEGORY_LABELS } from "../../types";
 import { Skeleton } from "../../components/ui/Skeleton";
 
-const CATEGORY_BADGE_STYLES: Record<string, React.CSSProperties> = {
-  ANIME:      { background: "rgba(201,131,106,0.15)", color: "var(--accent)",  border: "1px solid rgba(201,131,106,0.3)" },
-  ANIMALS:    { background: "rgba(122,158,126,0.15)", color: "var(--sage)",    border: "1px solid rgba(122,158,126,0.3)" },
-  CHARACTERS: { background: "rgba(242,196,160,0.15)", color: "var(--accent)",  border: "1px solid rgba(242,196,160,0.4)" },
-  OTHERS:     { background: "var(--border-subtle)",   color: "var(--text-secondary)", border: "1px solid var(--border-input)" },
+const CATEGORY_BADGE_STYLE: React.CSSProperties = {
+  background: "rgba(201,131,106,0.15)", color: "var(--accent)", border: "1px solid rgba(201,131,106,0.3)",
 };
 
 export function ProductDetailPage() {
@@ -120,9 +116,9 @@ export function ProductDetailPage() {
             <div className="p-8 md:p-10 flex flex-col flex-1" style={{ background: "var(--bg-card)" }}>
               <span
                 className="inline-block text-xs font-body font-medium px-3 py-1 rounded-full mb-4 self-start"
-                style={CATEGORY_BADGE_STYLES[product.category]}
+                style={CATEGORY_BADGE_STYLE}
               >
-                {CATEGORY_LABELS[product.category]}
+                {product.category.name}
               </span>
 
               <h1 className="font-display text-4xl md:text-5xl font-bold leading-tight mb-4" style={{ color: "var(--text-primary)" }}>

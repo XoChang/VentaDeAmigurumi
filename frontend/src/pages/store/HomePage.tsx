@@ -80,7 +80,7 @@ export function HomePage() {
   const storeName      = config?.storeName      ?? "AmigurumiShop";
   const whatsappNumber = config?.whatsappNumber ?? "";
   const currencySymbol = config?.currencySymbol ?? "S/.";
-  const hasFilters     = !!(filters.category || filters.minPrice || filters.maxPrice);
+  const hasFilters     = !!(filters.categoryId || filters.minPrice || filters.maxPrice);
 
   const iconBtn: React.CSSProperties = {
     position: "relative", display: "flex", alignItems: "center", justifyContent: "center",

@@ -6,6 +6,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { configApi } from "../../api/config.api";
 import { authApi } from "../../api/auth.api";
+import { categoriesApi } from "../../api/categories.api";
+import type { Category } from "../../types";
 
 const PasswordSchema = z.object({
   currentPassword: z.string().min(1, "Requerido"),
@@ -112,6 +114,34 @@ export function AdminConfigPage() {
       resetPwd();
       setPasswordSaved(true);
       setTimeout(() => setPasswordSaved(false), 3000);
+    },
+  });
+
+  const [newCategoryName, setNewCategoryName] = useState("");
+  const [categoryError, setCategoryError] = useState("");
+
+  const { data: categories = [] } = useQuery<Category[]>({
+    queryKey: ["categories"],
+    queryFn: categoriesApi.list,
+  });
+
+  const createCategoryMutation = useMutation({
+    mutationFn: (name: string) => categoriesApi.create(name),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["categories"] });
+      setNewCategoryName("");
+      setCategoryError("");
+    },
+    onError: (err: { response?: { data?: { error?: string } } }) => {
+      setCategoryError(err?.response?.data?.error ?? "Error al crear la categoría");
+    },
+  });
+
+  const deleteCategoryMutation = useMutation({
+    mutationFn: (id: string) => categoriesApi.delete(id),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["categories"] }),
+    onError: (err: { response?: { data?: { error?: string } } }) => {
+      setCategoryError(err?.response?.data?.error ?? "Error al eliminar la categoría");
     },
   });
 
@@ -249,6 +279,64 @@ export function AdminConfigPage() {
           >
             Configuración del negocio
           </h1>
+
+          {/* ── Sección: Categorías ── */}
+          <div className="max-w-lg mb-10">
+            <div
+              className="rounded-2xl p-6"
+              style={{ background: "#FDFAF6", boxShadow: "var(--shadow-warm)", border: "1px solid rgba(242,196,160,0.2)" }}
+            >
+              <h2 className="font-display text-xl font-semibold mb-5" style={{ color: "#3D2B1F" }}>
+                Categorías
+              </h2>
+
+              {/* Lista */}
+              <div className="flex flex-col gap-2 mb-5">
+                {categories.length === 0 && (
+                  <p className="font-body text-sm" style={{ color: "#BFA090" }}>No hay categorías aún.</p>
+                )}
+                {categories.map((cat) => (
+                  <div key={cat.id} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 14px", borderRadius: "12px", background: "rgba(242,196,160,0.1)", border: "1px solid rgba(201,131,106,0.15)" }}>
+                    <span className="font-body text-sm font-medium" style={{ color: "#3D2B1F" }}>{cat.name}</span>
+                    <button
+                      onClick={() => { setCategoryError(""); deleteCategoryMutation.mutate(cat.id); }}
+                      disabled={deleteCategoryMutation.isPending}
+                      style={{ background: "none", border: "none", cursor: "pointer", color: "#BFA090", fontSize: "18px", lineHeight: 1, padding: "0 4px" }}
+                      title="Eliminar categoría"
+                      aria-label={`Eliminar ${cat.name}`}
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
+              </div>
+
+              {/* Agregar */}
+              <div style={{ display: "flex", gap: "8px" }}>
+                <input
+                  type="text"
+                  placeholder="Nueva categoría..."
+                  value={newCategoryName}
+                  onChange={(e) => { setNewCategoryName(e.target.value); setCategoryError(""); }}
+                  onKeyDown={(e) => { if (e.key === "Enter" && newCategoryName.trim()) { e.preventDefault(); createCategoryMutation.mutate(newCategoryName.trim()); } }}
+                  className="font-body text-sm focus:outline-none"
+                  style={{ flex: 1, padding: "10px 14px", borderRadius: "12px", border: "1.5px solid rgba(201,131,106,0.3)", background: "#FAF6F0", color: "#3D2B1F" }}
+                />
+                <button
+                  onClick={() => { if (newCategoryName.trim()) { setCategoryError(""); createCategoryMutation.mutate(newCategoryName.trim()); } }}
+                  disabled={createCategoryMutation.isPending || !newCategoryName.trim()}
+                  className="font-body font-medium text-sm"
+                  style={{ padding: "10px 18px", borderRadius: "12px", background: "linear-gradient(135deg, #C9836A, #B8654A)", color: "#FAF6F0", border: "none", cursor: "pointer", whiteSpace: "nowrap" }}
+                >
+                  {createCategoryMutation.isPending ? "..." : "Agregar"}
+                </button>
+              </div>
+
+              {categoryError && (
+                <p role="alert" className="font-body text-sm mt-3" style={{ color: "#DC2626" }}>{categoryError}</p>
+              )}
+            </div>
+          </div>
 
           {/* ── Sección: Cambiar contraseña ── */}
           <form

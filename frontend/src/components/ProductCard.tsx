@@ -1,19 +1,11 @@
 import { Link } from "react-router-dom";
 import type { Product } from "../types";
-import { CATEGORY_LABELS } from "../types";
 
 interface ProductCardProps {
   product: Product;
   currencySymbol: string;
   onAddToCart: (product: Product) => void;
 }
-
-const CATEGORY_BADGE_STYLES: Record<Product["category"], React.CSSProperties> = {
-  ANIME:      { background: "rgba(201,131,106,0.15)", color: "var(--accent)",         border: "1px solid rgba(201,131,106,0.3)" },
-  ANIMALS:    { background: "rgba(122,158,126,0.15)", color: "var(--sage)",           border: "1px solid rgba(122,158,126,0.3)" },
-  CHARACTERS: { background: "rgba(242,196,160,0.15)", color: "var(--accent)",         border: "1px solid rgba(242,196,160,0.4)" },
-  OTHERS:     { background: "var(--border-subtle)",   color: "var(--text-secondary)", border: "1px solid var(--border-input)"   },
-};
 
 export function ProductCard({ product, currencySymbol, onAddToCart }: ProductCardProps) {
   return (
@@ -49,9 +41,9 @@ export function ProductCard({ product, currencySymbol, onAddToCart }: ProductCar
           <span
             data-testid="product-category"
             className="inline-block text-xs font-body font-medium px-2.5 py-0.5 rounded-full mb-2"
-            style={CATEGORY_BADGE_STYLES[product.category]}
+            style={{ background: "rgba(201,131,106,0.15)", color: "var(--accent)", border: "1px solid rgba(201,131,106,0.3)" }}
           >
-            {CATEGORY_LABELS[product.category]}
+            {product.category.name}
           </span>
           <h2
             data-testid="product-name"
@@ -66,7 +58,6 @@ export function ProductCard({ product, currencySymbol, onAddToCart }: ProductCar
         </div>
       </Link>
 
-      {/* Botón agregar al carrito */}
       <div className="px-3 pb-3 mt-auto pt-1">
         <button
           onClick={() => onAddToCart(product)}
@@ -81,7 +72,6 @@ export function ProductCard({ product, currencySymbol, onAddToCart }: ProductCar
           onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.opacity = "0.9"; (e.currentTarget as HTMLButtonElement).style.transform = "scale(1.02)"; }}
           onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.opacity = "1"; (e.currentTarget as HTMLButtonElement).style.transform = "scale(1)"; }}
         >
-          {/* Cart icon */}
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
             <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
