@@ -5,6 +5,17 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { configApi } from "../../api/config.api";
+import { authApi } from "../../api/auth.api";
+
+const PasswordSchema = z.object({
+  currentPassword: z.string().min(1, "Requerido"),
+  newPassword: z.string().min(8, "Mínimo 8 caracteres"),
+  confirmPassword: z.string().min(1, "Requerido"),
+}).refine((d) => d.newPassword === d.confirmPassword, {
+  message: "Las contraseñas no coinciden",
+  path: ["confirmPassword"],
+});
+type PasswordForm = z.infer<typeof PasswordSchema>;
 
 const ConfigSchema = z.object({
   whatsappNumber: z
@@ -85,6 +96,24 @@ function StyledInput(
 export function AdminConfigPage() {
   const queryClient = useQueryClient();
   const [saved, setSaved] = useState(false);
+  const [passwordSaved, setPasswordSaved] = useState(false);
+
+  const {
+    register: registerPwd,
+    handleSubmit: handleSubmitPwd,
+    reset: resetPwd,
+    formState: { errors: pwdErrors, isSubmitting: isPwdSubmitting },
+  } = useForm<PasswordForm>({ resolver: zodResolver(PasswordSchema) });
+
+  const passwordMutation = useMutation({
+    mutationFn: (data: PasswordForm) =>
+      authApi.changePassword(data.currentPassword, data.newPassword),
+    onSuccess: () => {
+      resetPwd();
+      setPasswordSaved(true);
+      setTimeout(() => setPasswordSaved(false), 3000);
+    },
+  });
 
   const { data: config, isLoading } = useQuery({
     queryKey: ["admin-config"],
@@ -220,6 +249,106 @@ export function AdminConfigPage() {
           >
             Configuración del negocio
           </h1>
+
+          {/* ── Sección: Cambiar contraseña ── */}
+          <form
+            onSubmit={handleSubmitPwd((data) => passwordMutation.mutate(data))}
+            noValidate
+            className="max-w-lg mb-10"
+          >
+            <div
+              className="rounded-2xl p-6"
+              style={{
+                background: "#FDFAF6",
+                boxShadow: "var(--shadow-warm)",
+                border: "1px solid rgba(242,196,160,0.2)",
+              }}
+            >
+              <h2
+                className="font-display text-xl font-semibold mb-5"
+                style={{ color: "#3D2B1F" }}
+              >
+                Seguridad
+              </h2>
+
+              <div className="space-y-5">
+                <div>
+                  <FieldLabel htmlFor="currentPassword">Contraseña actual</FieldLabel>
+                  <StyledInput
+                    id="currentPassword"
+                    type="password"
+                    hasError={!!pwdErrors.currentPassword}
+                    {...registerPwd("currentPassword")}
+                  />
+                  {pwdErrors.currentPassword && (
+                    <p role="alert" className="font-body text-sm mt-1" style={{ color: "#DC2626" }}>
+                      {pwdErrors.currentPassword.message}
+                    </p>
+                  )}
+                </div>
+
+                <div>
+                  <FieldLabel htmlFor="newPassword">Nueva contraseña</FieldLabel>
+                  <StyledInput
+                    id="newPassword"
+                    type="password"
+                    hasError={!!pwdErrors.newPassword}
+                    {...registerPwd("newPassword")}
+                  />
+                  {pwdErrors.newPassword && (
+                    <p role="alert" className="font-body text-sm mt-1" style={{ color: "#DC2626" }}>
+                      {pwdErrors.newPassword.message}
+                    </p>
+                  )}
+                </div>
+
+                <div>
+                  <FieldLabel htmlFor="confirmPassword">Confirmar nueva contraseña</FieldLabel>
+                  <StyledInput
+                    id="confirmPassword"
+                    type="password"
+                    hasError={!!pwdErrors.confirmPassword}
+                    {...registerPwd("confirmPassword")}
+                  />
+                  {pwdErrors.confirmPassword && (
+                    <p role="alert" className="font-body text-sm mt-1" style={{ color: "#DC2626" }}>
+                      {pwdErrors.confirmPassword.message}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              {passwordMutation.isError && (
+                <p role="alert" className="font-body text-sm mt-4" style={{ color: "#DC2626" }}>
+                  {(passwordMutation.error as { response?: { data?: { error?: string } } })?.response?.data?.error ?? "Error al cambiar la contraseña."}
+                </p>
+              )}
+              {passwordSaved && (
+                <p role="status" className="font-body text-sm font-medium mt-4 animate-fade-in" style={{ color: "#2F4B34" }}>
+                  ✓ Contraseña actualizada correctamente.
+                </p>
+              )}
+
+              <button
+                type="submit"
+                disabled={isPwdSubmitting || passwordMutation.isPending}
+                className="font-body font-medium text-sm mt-6"
+                style={{
+                  padding: "13px 28px",
+                  borderRadius: "12px",
+                  background: isPwdSubmitting || passwordMutation.isPending
+                    ? "rgba(201,131,106,0.5)"
+                    : "linear-gradient(135deg, #C9836A, #B8654A)",
+                  color: "#FAF6F0",
+                  boxShadow: isPwdSubmitting || passwordMutation.isPending ? "none" : "0 3px 14px rgba(201,131,106,0.4)",
+                  border: "none",
+                  cursor: isPwdSubmitting || passwordMutation.isPending ? "not-allowed" : "pointer",
+                }}
+              >
+                {isPwdSubmitting || passwordMutation.isPending ? "Guardando..." : "Cambiar contraseña"}
+              </button>
+            </div>
+          </form>
 
           {isLoading ? (
             <div

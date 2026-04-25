@@ -31,9 +31,10 @@ model Product {
 }
 
 model Config {
-  id             String   @id @default(cuid())
-  whatsappNumber String   @default("")
-  storeName      String   @default("AmigurumiShop")
-  currencySymbol String   @default("S/.")
-  updatedAt      DateTime @updatedAt
+  id                String   @id @default(cuid())
+  whatsappNumber    String   @default("")
+  storeName         String   @default("AmigurumiShop")
+  currencySymbol    String   @default("S/.")
+  adminPasswordHash String?
+  updatedAt         DateTime @updatedAt
 }
