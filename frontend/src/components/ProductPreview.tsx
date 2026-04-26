@@ -57,7 +57,7 @@ export function ProductPreview({ name, price, categoryName, imageUrl, currencySy
               {name || "Nombre del amigurumi"}
             </p>
             <p className="font-display font-bold text-base" style={{ color: "var(--accent)" }}>
-              {price ? `${currencySymbol} ${price.toFixed(2)}` : `${currencySymbol} 0.00`}
+              {price ? `${currencySymbol} ${Number(price).toFixed(2)}` : `${currencySymbol} 0.00`}
             </p>
           </div>
         </div>
