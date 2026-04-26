@@ -22,6 +22,74 @@ function YarnBallOrnament({ className = "" }: { className?: string }) {
   );
 }
 
+function TikTokIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.79 1.54V6.75a4.85 4.85 0 0 1-1.02-.06z" />
+    </svg>
+  );
+}
+
+function InstagramIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+    </svg>
+  );
+}
+
+function FacebookIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+    </svg>
+  );
+}
+
+function FloatingDecor() {
+  return (
+    <div aria-hidden="true" style={{ position: "absolute", inset: 0, zIndex: -1, pointerEvents: "none", overflow: "hidden" }}>
+      <div style={{ position: "absolute", top: "7%", left: "1.5%", width: 64, height: 64, opacity: 0.22 }}>
+        <YarnBallOrnament className="bg-float-1" />
+      </div>
+      <div style={{ position: "absolute", top: "22%", right: "1.5%", width: 48, height: 48, opacity: 0.18 }}>
+        <YarnBallOrnament className="bg-float-3" />
+      </div>
+      <div style={{ position: "absolute", top: "48%", left: "0.8%", width: 52, height: 52, opacity: 0.16 }}>
+        <YarnBallOrnament className="bg-float-5" />
+      </div>
+      <div style={{ position: "absolute", top: "72%", right: "1%", width: 58, height: 58, opacity: 0.2 }}>
+        <YarnBallOrnament className="bg-float-7" />
+      </div>
+      <div style={{ position: "absolute", top: "88%", left: "2%", width: 40, height: 40, opacity: 0.15 }}>
+        <YarnBallOrnament className="bg-float-2" />
+      </div>
+      <svg className="bg-float-4" aria-hidden="true" viewBox="0 0 24 24" fill="none"
+        style={{ position: "absolute", top: "33%", right: "1.5%", width: 32, height: 32, opacity: 0.28 }}>
+        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" fill="var(--accent)" />
+      </svg>
+      <svg className="bg-float-6" aria-hidden="true" viewBox="0 0 24 24" fill="none"
+        style={{ position: "absolute", top: "60%", left: "1.5%", width: 28, height: 28, opacity: 0.22 }}>
+        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" fill="var(--sage)" />
+      </svg>
+      <svg className="bg-float-8" aria-hidden="true" viewBox="0 0 24 24" fill="none"
+        style={{ position: "absolute", top: "85%", right: "2%", width: 36, height: 36, opacity: 0.2 }}>
+        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" fill="var(--accent)" />
+      </svg>
+      <svg className="bg-float-2" aria-hidden="true" viewBox="0 0 24 24" fill="none"
+        style={{ position: "absolute", top: "16%", left: "3%", width: 20, height: 20, opacity: 0.3 }}>
+        <path d="M12 2L14 10L22 12L14 14L12 22L10 14L2 12L10 10Z" fill="var(--accent)" />
+      </svg>
+      <svg className="bg-float-5" aria-hidden="true" viewBox="0 0 24 24" fill="none"
+        style={{ position: "absolute", top: "55%", right: "2.5%", width: 18, height: 18, opacity: 0.28 }}>
+        <path d="M12 2L14 10L22 12L14 14L12 22L10 14L2 12L10 10Z" fill="var(--sage)" />
+      </svg>
+    </div>
+  );
+}
+
 function CartIcon() {
   return (
     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -100,7 +168,8 @@ export function HomePage() {
   };
 
   return (
-    <div className="min-h-dvh grain" style={{ background: "linear-gradient(160deg, var(--bg-primary) 0%, var(--bg-secondary) 40%, var(--bg-primary) 100%)" }}>
+    <div className="min-h-dvh grain" style={{ background: "linear-gradient(160deg, var(--bg-primary) 0%, var(--bg-secondary) 40%, var(--bg-primary) 100%)", isolation: "isolate" }}>
+      <FloatingDecor />
 
       {/* ══ NAVBAR ══════════════════════════════════════════════════ */}
       <header className="glass-cream py-3 px-4 animate-slide-down"
@@ -269,7 +338,21 @@ export function HomePage() {
       {/* ══ FOOTER ══════════════════════════════════════════════════ */}
       <footer className="py-8 px-4 text-center" style={{ borderTop: "1px solid rgba(201,131,106,0.2)" }}>
         <p className="font-display italic text-lg" style={{ color: "var(--accent)" }}>{storeName}</p>
-        <p className="font-body text-sm mt-1" style={{ color: "var(--text-muted)" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "10px", margin: "14px 0 12px" }}>
+          <a href="#" target="_blank" rel="noopener noreferrer" aria-label="TikTok"
+            style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 40, height: 40, borderRadius: "50%", background: "var(--bg-card)", border: "1.5px solid var(--border-subtle)", color: "var(--text-muted)", boxShadow: "var(--shadow-warm)", textDecoration: "none" }}>
+            <TikTokIcon />
+          </a>
+          <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Instagram"
+            style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 40, height: 40, borderRadius: "50%", background: "var(--bg-card)", border: "1.5px solid var(--border-subtle)", color: "var(--text-muted)", boxShadow: "var(--shadow-warm)", textDecoration: "none" }}>
+            <InstagramIcon />
+          </a>
+          <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Facebook"
+            style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 40, height: 40, borderRadius: "50%", background: "var(--bg-card)", border: "1.5px solid var(--border-subtle)", color: "var(--text-muted)", boxShadow: "var(--shadow-warm)", textDecoration: "none" }}>
+            <FacebookIcon />
+          </a>
+        </div>
+        <p className="font-body text-sm" style={{ color: "var(--text-muted)" }}>
           Cada pieza tejida con amor ✦ {new Date().getFullYear()}
         </p>
       </footer>
