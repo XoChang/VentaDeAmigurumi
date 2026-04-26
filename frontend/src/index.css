@@ -207,6 +207,12 @@ html.dark {
   to   { opacity: 1; transform: scale(1) translateY(0); }
 }
 
+@keyframes floatDrift {
+  0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); }
+  33%       { transform: translateY(-14px) translateX(6px) rotate(4deg); }
+  66%       { transform: translateY(-6px) translateX(-8px) rotate(-3deg); }
+}
+
 /* ─── Utility classes ─────────────────────────────────────────────── */
 @layer utilities {
   /* Grain texture overlay */
@@ -312,6 +318,16 @@ html.dark {
   .admin-sidebar {
     background: linear-gradient(180deg, var(--sidebar-top) 0%, var(--sidebar-bot) 100%);
   }
+
+  /* Floating background decorative elements */
+  .bg-float-1 { animation: floatDrift 9s ease-in-out infinite; }
+  .bg-float-2 { animation: floatDrift 12s ease-in-out 1.5s infinite; }
+  .bg-float-3 { animation: floatDrift 8s ease-in-out 3s infinite; }
+  .bg-float-4 { animation: floatDrift 11s ease-in-out 0.8s infinite; }
+  .bg-float-5 { animation: floatDrift 10s ease-in-out 2s infinite; }
+  .bg-float-6 { animation: floatDrift 7s ease-in-out 4s infinite; }
+  .bg-float-7 { animation: floatDrift 13s ease-in-out 1s infinite; }
+  .bg-float-8 { animation: floatDrift 9.5s ease-in-out 2.5s infinite; }
 
   /* Dark mode toggle spin animation */
   .dark-toggle-spin {
